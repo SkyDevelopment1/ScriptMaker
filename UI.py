@@ -1,11 +1,17 @@
+#Most of the UI code should be kept in this file and imported by other files
+#This code should and will be simpfied later there is some junk in here from old code and reworks 
+
+#Theres a issue with the Ui not scaling to different screen sizes i will have to look into that.
+
+import SavLoad as File #Import the file that handles saving and loading
+
 import customtkinter as CK
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 import os
-import SavLoad as File
 
-global CTK; CTK = CK.CTk()
+global CTK; CTK = CK.CTk()#i made this a globle variable so i can edit it in other files and function
 
 #main window
 def CreateMainWindow():
@@ -29,7 +35,7 @@ def ClearWindow(): #Function to clear the window
 #--------------------------------------------------------------------------
 
 #Button Functions
-def NewScript():
+def NewScript(): #Function to create a new script
     title = CreateScriptMenu()
     Script = File.CreateScript(title, {})
     file_path = filedialog.asksaveasfile(
@@ -39,7 +45,7 @@ def NewScript():
     if file_path:
         File.SaveScript(file_path.name, Script)
 
-def OpenScript():
+def OpenScript(): #Function to open/load a script
     file_path = filedialog.askopenfile(
         title="Select a Script File",
         filetypes=[("Json Files", "*.json"), ("All Files", "*.*")]
@@ -50,7 +56,7 @@ def OpenScript():
         Script = File.LoadScript(file_path)
         print(Script)
 
-def DeleteScript():
+def DeleteScript(): #Function to delete a script
     file_path = filedialog.askopenfilename(
         title="Select a Script File",
         filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]

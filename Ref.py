@@ -5,6 +5,7 @@ from tkinter import messagebox
 import os
 import json
 
+#This is the example script for testing loading and finding out how to structure it for saving.
 ExampleScript = {
     "Title": "GhostHunter",
     "Scenes": {
@@ -19,6 +20,8 @@ ExampleScript = {
     "Characters": ["Jack", "Ghost", "Old Man"]
 }
 
+
+#Ingore all of this the programe used to be in one script but I split it up and kept the functions here for recreation later
 
 #Saving/loading
 # def CreateScript(Title:str, Scenes:dict, Characters:dict):
