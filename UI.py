@@ -3,18 +3,20 @@
 
 #Theres a issue with the Ui not scaling to different screen sizes i will have to look into that.
 
-import SavLoad as File #Import the file that handles saving and loading
 
 import customtkinter as CK
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
-import os
 
-global CTK; CTK = CK.CTk()#i made this a globle variable so i can edit it in other files and function
+import Shared
+
+CTK = CK.CTk()
+Shared.CTK = CTK
 
 #main window
 def CreateMainWindow():
+    import os
     print("Creating Main Window")
     CTK.geometry("1280x720") #720p
     CTK.title("ScriptMaker: Start Menu")
@@ -36,7 +38,7 @@ def ClearWindow(): #Function to clear the window
 
 #Button Functions
 def NewScript(): #Function to create a new script
-    File.CreateScript()
+    Shared.File.CreateScript()
 
 def OpenScript(): #Function to open/load a script
     file_path = filedialog.askopenfile(
@@ -46,10 +48,11 @@ def OpenScript(): #Function to open/load a script
     if file_path:
         file_path = file_path.name
         print(file_path)
-        Script = File.LoadScript(file_path)
+        Script = Shared.File.LoadScript(file_path)
         print(Script)
 
 def DeleteScript(): #Function to delete a script
+    import os
     file_path = filedialog.askopenfilename(
         title="Select a Script File",
         filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
@@ -88,7 +91,7 @@ def CreateScriptMenu():
         file_menu = tk.Menu(menubar, tearoff=0)
         file_menu.add_command(label="New", command=NewScript)
         file_menu.add_command(label="Open...", command=OpenScript)
-        file_menu.add_command(label="Save", command=File.SaveScript)
+        file_menu.add_command(label="Save", command=Shared.File.SaveScript)
         file_menu.add_separator()
         file_menu.add_command(label="Back to Start Menu", command=CreateStartMenu)
         file_menu.add_command(label="Exit", command=CTK.quit)

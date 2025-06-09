@@ -6,29 +6,24 @@
 import keyboard as key
 from tkinter import filedialog
 import os
-
-#Scripts
-import UI
-import SavLoad as File
-
-#Global Variables
-global EditorSettings; EditorSettings = File.LoadEditorSettings()
-global CurrentScript; CurrentScript = None
-
-if not os.path.exists(EditorSettings["SavedEditorSettings"]["SavePath"]): #Check if the save path exists if it doesn't Ask for it
-    Folder = filedialog.askdirectory(title="Select a Folder To Save Your Scripts")
-    if os.path.exists(Folder):
-        EditorSettings["SavedEditorSettings"]["SavePath"] = Folder
-        File.SaveEditorSettings()
     
 
 #Startup
-UI.CreateMainWindow() #Create the main window
-UI.CreateStartMenu() #Create the startup menu
+def Startup():
+    import Shared
+    Shared.UI.CreateMainWindow() #Create the main window
+    Shared.UI.CreateStartMenu() #Create the startup menu
+
+    if not os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]): #Check if the save path exists if it doesn't Ask for it
+        Folder = filedialog.askdirectory(title="Select a Folder To Save Your Scripts")
+        if os.path.exists(Folder):
+            Shared.EditorSettings["SavedEditorSettings"]["SavePath"] = Folder
+            Shared.File.SaveEditorSettings()
+
+    key.add_hotkey('ctrl+s',  (Shared.File.SaveScript))
+
+    Shared.CTK.mainloop() #Start the main event loop
 
 
-#SaveScript
-key.add_hotkey('ctrl+s',  (File.SaveScript))
-
-
-UI.CTK.mainloop() #Start the main event loop
+if __name__ == "__main__":
+    Startup()

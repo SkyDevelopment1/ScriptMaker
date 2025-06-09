@@ -6,19 +6,19 @@ import os
 import json
 
 #This is the example script for testing loading and finding out how to structure it for saving.
-ExampleScript = {
-    "Title": "GhostHunter",
-    "Scenes": {
-        "1": {
-            "1": {"Tag": "Fade In", "Story": "A young man walks up to a dark house"},
-            "2": {"Tag": "", "Story": "Then a ghost jumps at him"}
-        },
-        "2": {
-            "1": {"Tag": "Yelling", "Character": "Jack", "Story": "AHHHHHHHH!!!!"}
-        }
-    },
-    "Characters": ["Jack", "Ghost", "Old Man"]
-}
+# ExampleScript = {
+#     "Title": "GhostHunter",
+#     "Scenes": {
+#         "1": {
+#             "1": {"Tag": "Fade In", "Story": "A young man walks up to a dark house"},
+#             "2": {"Tag": "", "Story": "Then a ghost jumps at him"}
+#         },
+#         "2": {
+#             "1": {"Tag": "Yelling", "Character": "Jack", "Story": "AHHHHHHHH!!!!"}
+#         }
+#     },
+#     "Characters": ["Jack", "Ghost", "Old Man"]
+# }
 
 
 #Ingore all of this the programe used to be in one script but I split it up and kept the functions here for recreation later

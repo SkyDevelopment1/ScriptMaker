@@ -1,0 +1,13 @@
+{
+    "Title": "GhostHunter",
+    "Scenes": {
+        "1": {
+            "1": {"Tag": "Fade In", "Story": "A young man walks up to a dark house"},
+            "2": {"Tag": "", "Story": "Then a ghost jumps at him"}
+        },
+        "2": {
+            "1": {"Tag": "Yelling", "Character": "Jack", "Story": "AHHHHHHHH!!!!"}
+        }
+    },
+    "Characters": ["Jack", "Ghost", "Old Man"]
+}

@@ -1,17 +1,17 @@
-import ScriptMaker
-import UI #UI.py
-
 import os
 from tkinter import filedialog
 import json
+
+import Shared
 
 #for the project file structure i would like it to be something like
 #ProjectName: {SceneName: {ShotName: {Tag: "", Story: ""}}} In tag if its Talking or Yelling or something like that and in story if its a character saying something or something like that then required a character
 
 EditorSettingsPath = os.path.abspath("EditorSettings.json")
 
+
 def CreateScript():
-    Title = UI.CK.CTkInputDialog(text="Enter Your Script Name:", title="Name Your Script").get_input()
+    Title = Shared.UI.CK.CTkInputDialog(text="Enter Your Script Name:", title="Name Your Script").get_input()
 
     Script = {
         "Title": Title,
@@ -23,21 +23,31 @@ def CreateScript():
 
 #at the momment i'm trying to load exsamples then Start coding the saving following the same structure as the loading
 
-def SaveScript():
-    Script = ScriptMaker.CurrentScript
-    if os.path.exists(EditorSettingsPath) and os.path.exists(ScriptMaker.EditorSettings["SavedEditorSettings"]["SavePath"]):
+# def SaveScript():
+#     Script = ScriptMaker.CurrentScript
+#     if os.path.exists(EditorSettingsPath) and os.path.exists(ScriptMaker.EditorSettings["SavedEditorSettings"]["SavePath"]):
+#         pass
+#     elif not os.path.exists(EditorSettingsPath): #if the first if statement fails then check whats wrong
+#         pass
+#     elif not os.path.exists(ScriptMaker.EditorSettings["SavedEditorSettings"]["SavePath"]): #if it issue is not the editor settings then check the save path
+#         pass 
+#     else: #something is wrong
+#         Warning("Error Saving Script")
+
+def LoadScript(): #Need to code a order system it can get out of order of events if i dont code it
+    
+    if os.path.exists(EditorSettingsPath) and os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]):#success
         pass
     elif not os.path.exists(EditorSettingsPath): #if the first if statement fails then check whats wrong
         pass
-    elif not os.path.exists(ScriptMaker.EditorSettings["SavedEditorSettings"]["SavePath"]): #if it issue is not the editor settings then check the save path
+    elif not os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]): #if it issue is not the editor settings then check the save path
         pass 
     else: #something is wrong
         Warning("Error Saving Script")
 
-def LoadScript():
-    pass
-
 def SaveEditorSettings():
+    
+    import ScriptMaker
     if os.path.exists(EditorSettingsPath):
         with open(EditorSettingsPath, "w", encoding="utf-8") as file:
             json.dump(ScriptMaker.EditorSettings, file, indent=4)
@@ -46,6 +56,7 @@ def SaveEditorSettings():
         print("EditorSettings.json not found Path: ", EditorSettingsPath)
 
 def LoadEditorSettings():
+    
     if os.path.exists(EditorSettingsPath):
         with open(EditorSettingsPath, "r", encoding="utf-8") as file:
             LoadedEditorSettings = json.load(file)
@@ -54,6 +65,34 @@ def LoadEditorSettings():
         print("EditorSettings.json not found Path: ", EditorSettingsPath)
 
 
-def ExportScript(ScriptData): #Exporting should be converting the script data into a text file formated as a movie Script (Scene: SceneName - Shot: ShotName ~ Tag) then the story/Text should be under that
-    LoadedScript = LoadScript(ScriptData)
-    print(LoadedScript)
+def ExportScript(): #Exporting should be converting the script data into a text file formated as a movie Script (Scene: SceneName - Shot: ShotName ~ Tag) then the story/Text should be under that
+    with open("Example.json", "r", encoding="utf-8") as file:
+        LoadedScript = json.load(file)
+
+    if LoadedScript:
+        TextScript = LoadedScript["Title"] + "\n\n\n"
+
+        for Scene in LoadedScript["Scenes"]:
+            for Shot in LoadedScript["Scenes"][Scene]:
+                TextScript += "(Scene: " + Scene + " - Shot: " + Shot
+
+                if LoadedScript["Scenes"][Scene][Shot]["Tag"] != "":#if there no tag for the shot then skip this
+                    TextScript += " ~ Tag: " + LoadedScript["Scenes"][Scene][Shot]["Tag"]
+                    if LoadedScript["Scenes"][Scene][Shot]["Tag"] == "Talking" or LoadedScript["Scenes"][Scene][Shot]["Tag"] == "Yelling":
+                        TextScript += " * " + LoadedScript["Scenes"][Scene][Shot]["Character"]
+                 
+                TextScript += ")"
+                TextScript += "\n" + LoadedScript["Scenes"][Scene][Shot]["Story"] + "\n\n"
+
+                print(TextScript)
+
+            if os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]):
+                with open(os.path.join(Shared.EditorSettings["SavedEditorSettings"]["SavePath"], LoadedScript["Title"] + ".txt"), "w", encoding="utf-8") as file:
+                    file.write(TextScript)
+
+        return TextScript
+    else:
+        print("Failed to export script!!!")
+
+Shared.EditorSettings = LoadEditorSettings()
+print(ExportScript()) 
