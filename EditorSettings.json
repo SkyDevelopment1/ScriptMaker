@@ -1,9 +1,8 @@
 {
     "SavedEditorSettings": {
-    "EditorTheme":"Dark",
-    "SavePath": "Ask for Save directory to create or select a folder to save to or to open a saved file" 
+        "EditorTheme": "Dark",
+        "SavePath": ""
     },
-
     "UnSavedEditorData": {
         "EditorSaved": false,
         "NewScenes": []

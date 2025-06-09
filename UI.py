@@ -36,14 +36,7 @@ def ClearWindow(): #Function to clear the window
 
 #Button Functions
 def NewScript(): #Function to create a new script
-    title = CreateScriptMenu()
-    Script = File.CreateScript(title, {})
-    file_path = filedialog.asksaveasfile(
-        title="Select a Place To Save Your Script",
-        filetypes=[("Json Files", "*.json"), ("All Files", "*.*")]
-    )
-    if file_path:
-        File.SaveScript(file_path.name, Script)
+    File.CreateScript()
 
 def OpenScript(): #Function to open/load a script
     file_path = filedialog.askopenfile(
