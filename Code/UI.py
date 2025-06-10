@@ -12,8 +12,6 @@ from tkinter import messagebox
 import Shared
 
 CTK = CK.CTk()
-CTK.mainloop()
-Shared.CTK = CTK
 
 #main window
 def CreateMainWindow():
@@ -22,13 +20,17 @@ def CreateMainWindow():
     CTK.geometry("1280x720") #720p
     CTK.title("ScriptMaker: Start Menu")
 
-    icon_path = os.path.join(os.path.dirname(__file__), "Script.ico")
+    CTK.mainloop()
+
+    icon_path = os.path.join(os.path.dirname(__file__), "..", "Assets\Script.ico")
     if os.path.exists(icon_path):
+        print("Icon found:", icon_path)
         CTK.iconbitmap(icon_path)
     else:
         print("⚠️ Icon not found:", icon_path)
     
-
+def ChangeWindowTitle(title): #Function to change the title of the window
+    CTK.title(title)
 
 def ClearWindow(): #Function to clear the window
     CTK.config(menu=None) #Removes the menu in the top bar
@@ -118,6 +120,5 @@ def CreateStartMenu():
     CK.CTkButton(master=CTK, text="Delete Script", font=("Arial", 40), command=DeleteScript).place(x=850, y=400)
 
 #--------------------------------------------------------------------------
-
 
 

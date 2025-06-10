@@ -7,6 +7,5 @@ def GlobalVariables():
     global EditorSettings; EditorSettings = None
     global CurrentScript; CurrentScript = None
 
-    global CTK; CTK = None#i made this a globle variable so i can edit it in other files and function
 
 GlobalVariables()

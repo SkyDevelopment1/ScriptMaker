@@ -15,7 +15,7 @@ import Shared
 def Startup():#Startup function
     Shared.UI.CreateMainWindow() #Create the main window
     Shared.UI.CreateStartMenu() #Create the startup menu
-    
+    print("Line 18")
 
     if not os.path.exists(Shared.File.LoadEditorSettings()["SavedEditorSettings"]["SavePath"]): #Check if the save path exists if it doesn't Ask for it
         Folder = filedialog.askdirectory(title="Select a Folder To Save Your Scripts")
@@ -34,4 +34,5 @@ def Startup():#Startup function
 
 if __name__ == "__main__":
     Startup()
+    
     
