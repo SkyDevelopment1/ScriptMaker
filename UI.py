@@ -12,6 +12,7 @@ from tkinter import messagebox
 import Shared
 
 CTK = CK.CTk()
+CTK.mainloop()
 Shared.CTK = CTK
 
 #main window
@@ -26,6 +27,7 @@ def CreateMainWindow():
         CTK.iconbitmap(icon_path)
     else:
         print("⚠️ Icon not found:", icon_path)
+    
 
 
 def ClearWindow(): #Function to clear the window
@@ -74,16 +76,10 @@ def NewShot(Scene, Name, Tag):
 
 #Menu Functions
 def CreateScriptMenu():
-    dialog = CK.CTkInputDialog(text="Enter Your Script Name:", title="Name Your Script")
-    dialog = dialog.get_input()
-    print(dialog)
-    if dialog != None:
-        if dialog == "":
-            dialog = "untited Script"
-
+        Script = Shared.File.CreateScript()
         ClearWindow()
 
-        CTK.title("ScriptMaker: " + dialog)
+        CTK.title("ScriptMaker: " + Script["Title"])
         # Create a native-style menu bar
         menubar = tk.Menu(CTK)
 
@@ -107,7 +103,7 @@ def CreateScriptMenu():
         CK.CTkFrame(master=CTK, width=350, height=550, fg_color="#3A3A3A").place(x=400, y=150)
 
         CK.CTkButton(master=CTK, text="+", font=("Arial", 30), width=50, height=50, command=NewScene).place(x=25, y=100)
-        return dialog
+        
     
 def CreateStartMenu():
     ClearWindow()

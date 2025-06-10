@@ -4,26 +4,34 @@
 
 #Modules
 import keyboard as key
+import customtkinter as CK
 from tkinter import filedialog
 import os
+
+import Shared
     
 
 #Startup
-def Startup():
-    import Shared
+def Startup():#Startup function
     Shared.UI.CreateMainWindow() #Create the main window
     Shared.UI.CreateStartMenu() #Create the startup menu
+    
 
-    if not os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]): #Check if the save path exists if it doesn't Ask for it
+    if not os.path.exists(Shared.File.LoadEditorSettings()["SavedEditorSettings"]["SavePath"]): #Check if the save path exists if it doesn't Ask for it
         Folder = filedialog.askdirectory(title="Select a Folder To Save Your Scripts")
         if os.path.exists(Folder):
-            Shared.EditorSettings["SavedEditorSettings"]["SavePath"] = Folder
+            print("Line 21: ", Shared.EditorSettings)
+            Shared.EditorSettings["SavedEditorSettings"]["SavePath"] = str(Folder)
             Shared.File.SaveEditorSettings()
+    else:
+        print("Line 24")
 
     key.add_hotkey('ctrl+s',  (Shared.File.SaveScript))
 
-    Shared.CTK.mainloop() #Start the main event loop
+    
+
 
 
 if __name__ == "__main__":
     Startup()
+    

@@ -19,20 +19,22 @@ def CreateScript():
         "Characters": "",
     }
     
+    Shared.CurrentScript = Script
     return Script
 
 #at the momment i'm trying to load exsamples then Start coding the saving following the same structure as the loading
 
-# def SaveScript():
-#     Script = ScriptMaker.CurrentScript
-#     if os.path.exists(EditorSettingsPath) and os.path.exists(ScriptMaker.EditorSettings["SavedEditorSettings"]["SavePath"]):
-#         pass
-#     elif not os.path.exists(EditorSettingsPath): #if the first if statement fails then check whats wrong
-#         pass
-#     elif not os.path.exists(ScriptMaker.EditorSettings["SavedEditorSettings"]["SavePath"]): #if it issue is not the editor settings then check the save path
-#         pass 
-#     else: #something is wrong
-#         Warning("Error Saving Script")
+def SaveScript():
+    import Shared
+    Script = Shared.CurrentScript
+    if os.path.exists(EditorSettingsPath) and os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]):
+        pass
+    elif not os.path.exists(EditorSettingsPath): #if the first if statement fails then check whats wrong
+        pass
+    elif not os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]): #if it issue is not the editor settings then check the save path
+        pass 
+    else: #something is wrong
+        Warning("Error Saving Script")
 
 def LoadScript(): #Need to code a order system it can get out of order of events if i dont code it
     
@@ -46,11 +48,9 @@ def LoadScript(): #Need to code a order system it can get out of order of events
         Warning("Error Saving Script")
 
 def SaveEditorSettings():
-    
-    import ScriptMaker
     if os.path.exists(EditorSettingsPath):
         with open(EditorSettingsPath, "w", encoding="utf-8") as file:
-            json.dump(ScriptMaker.EditorSettings, file, indent=4)
+            json.dump(Shared.EditorSettings, file, indent=4)
             print("EditorSettings.json saved successfully")
     else:
         print("EditorSettings.json not found Path: ", EditorSettingsPath)
@@ -60,6 +60,7 @@ def LoadEditorSettings():
     if os.path.exists(EditorSettingsPath):
         with open(EditorSettingsPath, "r", encoding="utf-8") as file:
             LoadedEditorSettings = json.load(file)
+            Shared.EditorSettings = LoadedEditorSettings.copy()
             return LoadedEditorSettings
     else:
         print("EditorSettings.json not found Path: ", EditorSettingsPath)
@@ -94,5 +95,4 @@ def ExportScript(): #Exporting should be converting the script data into a text 
     else:
         print("Failed to export script!!!")
 
-Shared.EditorSettings = LoadEditorSettings()
-print(ExportScript()) 
+Shared.EditorSettings = LoadEditorSettings() 
