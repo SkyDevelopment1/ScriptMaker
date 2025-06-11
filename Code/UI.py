@@ -8,29 +8,38 @@ import customtkinter as CK
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+import multiprocessing
+import os
 
 import Shared
 
-CTK = CK.CTk()
+
+
+
 
 #main window
 def CreateMainWindow():
-    import os
     print("Creating Main Window")
+    global CTK; CTK = CK.CTk()
     CTK.geometry("1280x720") #720p
     CTK.title("ScriptMaker: Start Menu")
 
-    CTK.mainloop()
 
     icon_path = os.path.join(os.path.dirname(__file__), "..", "Assets\Script.ico")
     if os.path.exists(icon_path):
         print("Icon found:", icon_path)
-        CTK.iconbitmap(icon_path)
+        CTK.iconbitmap(bitmap=icon_path)
     else:
         print("⚠️ Icon not found:", icon_path)
+
+    return CTK
     
+    
+    
+
 def ChangeWindowTitle(title): #Function to change the title of the window
     CTK.title(title)
+    
 
 def ClearWindow(): #Function to clear the window
     CTK.config(menu=None) #Removes the menu in the top bar
@@ -56,7 +65,6 @@ def OpenScript(): #Function to open/load a script
         print(Script)
 
 def DeleteScript(): #Function to delete a script
-    import os
     file_path = filedialog.askopenfilename(
         title="Select a Script File",
         filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
@@ -81,6 +89,7 @@ def CreateScriptMenu():
         Script = Shared.File.CreateScript()
         ClearWindow()
 
+        print("Creating Script Menu")
         CTK.title("ScriptMaker: " + Script["Title"])
         # Create a native-style menu bar
         menubar = tk.Menu(CTK)
@@ -105,9 +114,15 @@ def CreateScriptMenu():
         CK.CTkFrame(master=CTK, width=350, height=550, fg_color="#3A3A3A").place(x=400, y=150)
 
         CK.CTkButton(master=CTK, text="+", font=("Arial", 30), width=50, height=50, command=NewScene).place(x=25, y=100)
+
+        
+        
+
+        
         
     
 def CreateStartMenu():
+    print("Creating Start Menu")
     ClearWindow()
 
     CTK.title("ScriptMaker: Start Menu")
@@ -119,6 +134,7 @@ def CreateStartMenu():
     CK.CTkButton(master=CTK, text="Open Script", font=("Arial", 40), command=OpenScript).place(x=850, y=250)
     CK.CTkButton(master=CTK, text="Delete Script", font=("Arial", 40), command=DeleteScript).place(x=850, y=400)
 
-#--------------------------------------------------------------------------
+    
 
+#--------------------------------------------------------------------------
 

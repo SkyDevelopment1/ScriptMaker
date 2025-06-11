@@ -3,9 +3,6 @@ import UI
 import SavLoad as File
 import ScriptMaker
 
-def GlobalVariables():
-    global EditorSettings; EditorSettings = None
-    global CurrentScript; CurrentScript = None
 
-
-GlobalVariables()
+global EditorSettings; EditorSettings = None
+global CurrentScript; CurrentScript = None
