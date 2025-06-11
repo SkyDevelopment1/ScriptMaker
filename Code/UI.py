@@ -8,7 +8,6 @@ import customtkinter as CK
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
-import multiprocessing
 import os
 
 import Shared
@@ -22,7 +21,7 @@ def CreateMainWindow():
     print("Creating Main Window")
     global CTK; CTK = CK.CTk()
     CTK.geometry("1280x720") #720p
-    CTK.title("ScriptMaker: Start Menu")
+    ChangeWindowTitle("ScriptMaker: Start Menu")
 
 
     icon_path = os.path.join(os.path.dirname(__file__), "..", "Assets\Script.ico")
@@ -39,6 +38,7 @@ def CreateMainWindow():
 
 def ChangeWindowTitle(title): #Function to change the title of the window
     CTK.title(title)
+    Shared.SMName = title
     
 
 def ClearWindow(): #Function to clear the window
@@ -52,11 +52,12 @@ def ClearWindow(): #Function to clear the window
 #Button Functions
 def NewScript(): #Function to create a new script
     Shared.File.CreateScript()
+    CreateScriptMenu()
 
 def OpenScript(): #Function to open/load a script
     file_path = filedialog.askopenfile(
         title="Select a Script File",
-        filetypes=[("Json Files", "*.json"), ("All Files", "*.*")]
+        filetypes=[("Json Files", "*.json")]
     )
     if file_path:
         file_path = file_path.name
@@ -67,19 +68,13 @@ def OpenScript(): #Function to open/load a script
 def DeleteScript(): #Function to delete a script
     file_path = filedialog.askopenfilename(
         title="Select a Script File",
-        filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+        filetypes=[("Json Files", "*.json")]
     )
     if file_path:
         if messagebox.askyesno("Delete", "Are you sure you want to delete this file?"): 
             os.remove(file_path)
             messagebox.showwarning("Deleted", "File deleted successfully.")
 
-def NewScene(Scene):
-    print(Scene)
-
-
-def NewShot(Scene, Name, Tag):
-    print(Scene, Name, Tag)
 
 
 #--------------------------------------------------------------------------
@@ -99,6 +94,7 @@ def CreateScriptMenu():
         file_menu.add_command(label="New", command=NewScript)
         file_menu.add_command(label="Open...", command=OpenScript)
         file_menu.add_command(label="Save", command=Shared.File.SaveScript)
+        file_menu.add_command(label="Export", command=Shared.File.ExportScript)
         file_menu.add_separator()
         file_menu.add_command(label="Back to Start Menu", command=CreateStartMenu)
         file_menu.add_command(label="Exit", command=CTK.quit)
@@ -113,7 +109,7 @@ def CreateScriptMenu():
         CK.CTkFrame(master=CTK, width=350, height=550, fg_color="#3A3A3A").place(x=25, y=150)
         CK.CTkFrame(master=CTK, width=350, height=550, fg_color="#3A3A3A").place(x=400, y=150)
 
-        CK.CTkButton(master=CTK, text="+", font=("Arial", 30), width=50, height=50, command=NewScene).place(x=25, y=100)
+        CK.CTkButton(master=CTK, text="+", font=("Arial", 30), width=50, height=50, command=Shared.File.NewScene).place(x=25, y=100)
 
         
         

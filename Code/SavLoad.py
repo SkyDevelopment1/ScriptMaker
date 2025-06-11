@@ -1,6 +1,7 @@
 import os
 from tkinter import filedialog
 import json
+import time
 
 import Shared
 
@@ -12,6 +13,9 @@ EditorSettingsPath = os.path.abspath("EditorSettings.json")
 
 def CreateScript():
     Title = Shared.UI.CK.CTkInputDialog(text="Enter Your Script Name:", title="Name Your Script").get_input()
+
+    if Title == None or Title == "":
+        Title = "Untitled Script"
 
     Script = {
         "Title": Title,
@@ -25,10 +29,14 @@ def CreateScript():
 #at the momment i'm trying to load exsamples then Start coding the saving following the same structure as the loading
 
 def SaveScript():
-    import Shared
     Script = Shared.CurrentScript
+
     if os.path.exists(EditorSettingsPath) and os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]):
-        pass
+        with open(os.path.join(Shared.EditorSettings["SavedEditorSettings"]["SavePath"], Script["Title"] + ".json"), "w", encoding="utf-8") as file:
+            Script = json.dump(Script, file, indent=4)
+            Shared.ProjectFile = Script
+            Shared.UI.CreateScriptMenu()
+
     elif not os.path.exists(EditorSettingsPath): #if the first if statement fails then check whats wrong
         pass
     elif not os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]): #if it issue is not the editor settings then check the save path
@@ -36,16 +44,42 @@ def SaveScript():
     else: #something is wrong
         Warning("Error Saving Script")
 
-def LoadScript(): #Need to code a order system it can get out of order of events if i dont code it
+def LoadScript(JsonPath: str): #Need to code a order system it can get out of order of events if i dont code it
     
     if os.path.exists(EditorSettingsPath) and os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]):#success
-        pass
+        with open(JsonPath, "r", encoding="utf-8") as file:
+
+            Script = json.load(file)
+            Shared.CurrentScript = Script
+            Shared.UI.ChangeWindowTitle("Script Maker " + Script["Title"])
+            return Script
+        
     elif not os.path.exists(EditorSettingsPath): #if the first if statement fails then check whats wrong
         pass
     elif not os.path.exists(Shared.EditorSettings["SavedEditorSettings"]["SavePath"]): #if it issue is not the editor settings then check the save path
         pass 
     else: #something is wrong
         Warning("Error Saving Script")
+
+def NewScene():
+    SceneName = Shared.UI.CK.CTkInputDialog(text="Enter Your Scene Name:", title="Name Your Scene").get_input()
+    Shared.CurrentScript["Scenes"][SceneName] = {}
+    print(SceneName)
+
+
+def NewShot(Scene):
+    Name = Shared.UI.CK.CTkInputDialog(text="Enter Your Shot Name:", title="Name Your Shot").get_input()
+    Tag = Shared.UI.CK.CTkInputDialog(text="Enter Your Shot Tag:", title="Name Your Shot").get_input()
+
+    if Tag == None:
+        Tag = ""
+    if Tag == "Talking" or Tag == "Yelling":
+        Character = Shared.UI.CK.CTkInputDialog(text="Enter Your Character Name:", title="Name Your Character").get_input()
+        Shared.CurrentScript["Characters"].append(Character)
+        Tag = "Talking: " + Character
+
+    Shared.CurrentScript["Scenes"][Scene][Name] = {"Tag": Tag, "Story": ""}
+    print(Scene, Name, Tag)
 
 def SaveEditorSettings():
     if os.path.exists(EditorSettingsPath):
@@ -96,3 +130,4 @@ def ExportScript(): #Exporting should be converting the script data into a text 
         print("Failed to export script!!!")
 
 Shared.EditorSettings = LoadEditorSettings() 
+

@@ -5,4 +5,6 @@ import ScriptMaker
 
 
 global EditorSettings; EditorSettings = None
-global CurrentScript; CurrentScript = None
+global CurrentScript; CurrentScript = {}
+global ProjectFile; ProjectFile = None
+global SMName; SMName = "Script Maker"
